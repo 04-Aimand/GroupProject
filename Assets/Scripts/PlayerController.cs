@@ -22,30 +22,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /* detect floor
-        RaycastHit hit;
-        Vector3 castPos = transform.position;
-        castPos.y += 1;
-
-        if(Physics.Raycast(castPos, -transform.up, out hit, Mathf.Infinity, terrainLayer))
-        {
-            if(hit.collider != null)
-            {
-                Vector3 movePos = transform.position;
-                movePos.y = hit.point.y + groundDis;
-                transform.position = movePos;
-            }
-        }*/
-        
-
         //movement
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
 
         Vector3 moveDir = new Vector3(x, 0, y);
-        rb.velocity = moveDir * speed;
+        transform.Translate(moveDir * speed * Time.deltaTime);
 
-        if(rb.velocity.x != 0 || rb.velocity.z != 0)
+        if(x != 0 || y != 0)
         {
             animator.SetBool("IsWalkBool", true);
         }
@@ -67,6 +51,7 @@ public class PlayerController : MonoBehaviour
         //Jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            animator.SetTrigger("Jump");
             rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
         }
     }
