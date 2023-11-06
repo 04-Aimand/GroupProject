@@ -29,8 +29,9 @@ public class InputManager : MonoBehaviour
     }
 
     public bool IsPointerOverUI()
-        => EventSystem.current.IsPointerOverGameObject(placementLayermask);
-    
+    {
+        return EventSystem.current.IsPointerOverGameObject();
+    }
 
     public Vector3 GetSelectedMapPosition()
     {

@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlacementSystem : MonoBehaviour
 {
     [SerializeField]
-    private GameObject mouseIndicator, cellIndicator;
+    private GameObject cellIndicator;
     [SerializeField]
     private InputManager inputManager;
     [SerializeField]
@@ -15,11 +16,12 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private TowerDatabaseSO database;
     private int selectedTowerIndex;
+    private int towerCost;
 
     [SerializeField]
     private GameObject[] gridVisualization;
 
-    private GridData floorData, towerData;
+    private GridData towerData;
 
     private Renderer previewRenderer;
 
@@ -27,7 +29,6 @@ public class PlacementSystem : MonoBehaviour
     private void Start()
     {
         StopPlacement();
-        floorData = new GridData();
         towerData = new GridData();
         previewRenderer = cellIndicator.GetComponentInChildren<Renderer>();
     }
@@ -41,6 +42,12 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"No ID Found {ID}");
             return;
         }
+        towerCost = database.towersData[selectedTowerIndex].Cost;
+        if(GameManager.instance.coins < towerCost)
+        {
+            Debug.Log("Not Enough coins");
+            return;
+        }
         gridVisualization[0].SetActive(true);
         cellIndicator.SetActive(true);
         inputManager.OnClicked += PlaceTower;
@@ -49,7 +56,7 @@ public class PlacementSystem : MonoBehaviour
 
     private void PlaceTower()
     {
-        if (inputManager.IsPointerOverUI())
+        if (inputManager.IsPointerOverUI() == true)
         {
             return;
         }
@@ -64,14 +71,17 @@ public class PlacementSystem : MonoBehaviour
         GameObject newTower = Instantiate(database.towersData[selectedTowerIndex].Prefab);
         newTower.transform.position = grid.CellToWorld(gridposition);
         placedGameObjects.Add(newTower);
-        GridData selectedData = database.towersData[selectedTowerIndex].ID == 0 ? floorData : towerData;
+        GridData selectedData = towerData;
         selectedData.AddObjectAt(gridposition, database.towersData[selectedTowerIndex].Size,
             database.towersData[selectedTowerIndex].ID, placedGameObjects.Count - 1);
+        //udate coins text
+        GameManager.instance.coins -= towerCost;
+        StopPlacement();
     }
 
     private bool CheckPlacementValidity(Vector3Int gridposition, int selectedTowerIndex)
     {
-        GridData selectedData = database.towersData[selectedTowerIndex].ID == 0 ? floorData : towerData;
+        GridData selectedData = towerData;
 
         return selectedData.CanPlaceObjectAt(gridposition, database.towersData[selectedTowerIndex].Size);
     }
@@ -95,7 +105,6 @@ public class PlacementSystem : MonoBehaviour
         bool placementValidity = CheckPlacementValidity(gridposition, selectedTowerIndex);
         previewRenderer.material.color = placementValidity ? Color.green : Color.red;
 
-        mouseIndicator.transform.position = mousePosition;
         cellIndicator.transform.position = grid.CellToWorld(gridposition);
     }
 }
