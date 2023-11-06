@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class PlacementSystem : MonoBehaviour
 {
     [SerializeField]
-    private GameObject cellIndicator;
-    [SerializeField]
     private InputManager inputManager;
     [SerializeField]
     private Grid grid;
@@ -23,14 +21,17 @@ public class PlacementSystem : MonoBehaviour
 
     private GridData towerData;
 
-    private Renderer previewRenderer;
+    [SerializeField]
+    private PreviewSystem preview;
+
+    private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
     private List<GameObject> placedGameObjects = new List<GameObject>();
     private void Start()
     {
         StopPlacement();
         towerData = new GridData();
-        previewRenderer = cellIndicator.GetComponentInChildren<Renderer>();
+        
     }
 
     public void StartPlacement(int ID)
@@ -49,7 +50,7 @@ public class PlacementSystem : MonoBehaviour
             return;
         }
         gridVisualization[0].SetActive(true);
-        cellIndicator.SetActive(true);
+        preview.StartShowingPlacementPreview(database.towersData[selectedTowerIndex].Prefab, database.towersData[selectedTowerIndex].Size);
         inputManager.OnClicked += PlaceTower;
         inputManager.OnExit += StopPlacement;
     }
@@ -76,6 +77,7 @@ public class PlacementSystem : MonoBehaviour
             database.towersData[selectedTowerIndex].ID, placedGameObjects.Count - 1);
         //udate coins text
         GameManager.instance.coins -= towerCost;
+        preview.UpdatePosition(grid.CellToWorld(gridposition), false);
         StopPlacement();
     }
 
@@ -90,9 +92,10 @@ public class PlacementSystem : MonoBehaviour
     {
         selectedTowerIndex = -1;
         gridVisualization[0].SetActive(false);
-        cellIndicator.SetActive(false);
+        preview.StopShowingPreview();
         inputManager.OnClicked -= PlaceTower;
         inputManager.OnExit -= StopPlacement;
+        lastDetectedPosition = Vector3Int.zero;
     }
 
     private void Update()
@@ -102,9 +105,13 @@ public class PlacementSystem : MonoBehaviour
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridposition = grid.WorldToCell(mousePosition);
 
-        bool placementValidity = CheckPlacementValidity(gridposition, selectedTowerIndex);
-        previewRenderer.material.color = placementValidity ? Color.green : Color.red;
+        if(lastDetectedPosition != gridposition)
+        {
+            bool placementValidity = CheckPlacementValidity(gridposition, selectedTowerIndex);
+            preview.UpdatePosition(grid.CellToWorld(gridposition), placementValidity);
+            lastDetectedPosition = gridposition;
+        }
+        
 
-        cellIndicator.transform.position = grid.CellToWorld(gridposition);
     }
 }
