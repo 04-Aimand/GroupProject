@@ -19,15 +19,18 @@ MonoBehaviour:
     <Prefab>k__BackingField: {fileID: 267722239802780905, guid: 3cc7cb1c353e5f54192c18aa0bb05fc6,
       type: 3}
     <Cost>k__BackingField: 5
+    <SellValue>k__BackingField: 2
   - <Name>k__BackingField: Tower2
     <ID>k__BackingField: 1
     <Size>k__BackingField: {x: 1, y: 1}
     <Prefab>k__BackingField: {fileID: 267722239802780905, guid: c62f400ef482de849af54f8db63c69fa,
       type: 3}
     <Cost>k__BackingField: 10
+    <SellValue>k__BackingField: 5
   - <Name>k__BackingField: Tower3
     <ID>k__BackingField: 2
     <Size>k__BackingField: {x: 1, y: 1}
     <Prefab>k__BackingField: {fileID: 267722239802780905, guid: 3c93dcdba8f1e4043996167d656e64be,
       type: 3}
     <Cost>k__BackingField: 15
+    <SellValue>k__BackingField: 7

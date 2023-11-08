@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         coinsText.text = coins + " Coins";
     }
 
-    public void DealDamage(int dmg)
+    public void TakeDamage(int dmg)
     {
         baseHealth -= dmg;
         baseHealthText.text = "Health : " + baseHealth;
@@ -39,5 +39,11 @@ public class GameManager : MonoBehaviour
         {
             //Lose Game
         }
+    }
+
+    public void BuyTower(int cost)
+    {
+        coins -= cost;
+        coinsText.text = coins + " Coins";
     }
 }
