@@ -11,8 +11,9 @@ public class PlacementState : IBuildingState
     TowerDatabaseSO database;
     GridData towerData;
     ObjectPlacer objectPlacer;
+    SoundFeedback soundFeedback;
 
-    public PlacementState(int iD, Grid grid, PreviewSystem previewSystem, TowerDatabaseSO database, GridData towerData, ObjectPlacer objectPlacer)
+    public PlacementState(int iD, Grid grid, PreviewSystem previewSystem, TowerDatabaseSO database, GridData towerData, ObjectPlacer objectPlacer, SoundFeedback soundFeedback)
     {
         ID = iD;
         this.grid = grid;
@@ -20,8 +21,9 @@ public class PlacementState : IBuildingState
         this.database = database;
         this.towerData = towerData;
         this.objectPlacer = objectPlacer;
+        this.soundFeedback = soundFeedback;
 
-        selectedTowerIndex = database.towersData.FindIndex(data => data.ID == ID);
+       selectedTowerIndex = database.towersData.FindIndex(data => data.ID == ID);
         if (selectedTowerIndex > -1)
         {
             previewSystem.StartShowingPlacementPreview(
@@ -41,7 +43,11 @@ public class PlacementState : IBuildingState
     {
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedTowerIndex);
         if (placementValidity == false)
+        {
+            soundFeedback.PlaySound(SoundType.WrongPlacement);
             return;
+        }
+        soundFeedback.PlaySound(SoundType.Place);
 
         int index = objectPlacer.PlaceObject(database.towersData[selectedTowerIndex].Prefab, grid.CellToWorld(gridPosition));
 

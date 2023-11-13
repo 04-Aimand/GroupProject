@@ -30,6 +30,9 @@ public class PlacementSystem : MonoBehaviour
 
     IBuildingState buildingState;
 
+    [SerializeField]
+    private SoundFeedback soundFeedback;
+
     
     private void Start()
     {
@@ -50,7 +53,7 @@ public class PlacementSystem : MonoBehaviour
         }
 
         gridVisualization.SetActive(true);
-        buildingState = new PlacementState(ID, grid, preview, database, towerData, objectplacer);
+        buildingState = new PlacementState(ID, grid, preview, database, towerData, objectplacer, soundFeedback);
         
         inputManager.OnClicked += PlaceTower;
         inputManager.OnExit += StopPlacement;
@@ -60,7 +63,7 @@ public class PlacementSystem : MonoBehaviour
     {
         StopPlacement();
         gridVisualization.SetActive(true);
-        buildingState = new RemovingState(grid, preview, database, towerData, objectplacer) ;
+        buildingState = new RemovingState(grid, preview, database, towerData, objectplacer, soundFeedback) ;
         inputManager.OnClicked += PlaceTower;
         inputManager.OnExit += StopPlacement;
     }

@@ -11,14 +11,16 @@ public class RemovingState : IBuildingState
     TowerDatabaseSO database;
     GridData towerData;
     ObjectPlacer objectPlacer;
+    SoundFeedback soundFeedback;
 
-    public RemovingState(Grid grid, PreviewSystem previewSystem, TowerDatabaseSO database, GridData towerData, ObjectPlacer objectPlacer)
+    public RemovingState(Grid grid, PreviewSystem previewSystem, TowerDatabaseSO database, GridData towerData, ObjectPlacer objectPlacer, SoundFeedback soundFeedback)
     {
         this.grid = grid;
         this.previewSystem = previewSystem;
         this.database = database;
         this.towerData = towerData;
         this.objectPlacer = objectPlacer;
+        this.soundFeedback = soundFeedback;
 
         previewSystem.StartShowingRemovePreview();
     }
@@ -38,10 +40,11 @@ public class RemovingState : IBuildingState
 
         if (selectedData == null)
         {
-            //sound
+            soundFeedback.PlaySound(SoundType.Click);
         }
         else
         {
+            soundFeedback.PlaySound(SoundType.Remove);
             gameTowerIndex = selectedData.GetRepresentationIndex(gridPosition);
             if (gameTowerIndex == -1)
                 return;
