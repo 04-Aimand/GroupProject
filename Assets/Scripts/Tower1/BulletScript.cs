@@ -7,7 +7,7 @@ public class BulletScript : MonoBehaviour
 	EnemyScript EnemyScript;
 	private Transform target;
 	public float bulletspeed = 2f;
-	public float damage = 1f;
+	public float damage = 20f;
 	public Rigidbody RB;
 	public GameObject impactEffect;
 	public float explosionRadius = 0f;
@@ -29,13 +29,13 @@ public class BulletScript : MonoBehaviour
 
 	IEnumerator Shoot()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.2f);
 		transform.Translate(Vector3.forward * bulletspeed * Time.deltaTime);
 	}
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision hit)
     {
-		if (collision.gameObject.CompareTag("Enemy"))
+		if (hit.gameObject.CompareTag("Enemy"))
 		{
 			HitTarget();
 		}
@@ -45,15 +45,8 @@ public class BulletScript : MonoBehaviour
 	{
 		GameObject effectIns = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
 		Destroy(effectIns, 5f);
-
-		if (explosionRadius > 0f)
-		{
-			Explode();
-		}
-		else
-		{
-			Damage(target);
-		}
+		Explode();
+		Damage(target);
 		Destroy(gameObject);
 	}
 

@@ -6,51 +6,39 @@ using UnityEngine.UI;
 public class EnemyScript : MonoBehaviour
 {
 	GameManager GameManager;
-	public float startSpeed = 10f;
-
-	[HideInInspector]
-	public float speed;
-
+	HealthBar HealthBar;
 	public float startHealth = 100;
-	private float health;
-
-	public int worth = 10;
-
-	public GameObject deathEffect;
-
-	[Header("Unity Stuff")]
-	public Image healthBar;
+	public float health;
+	public int drop = 10;
+	public Rigidbody RB;
 
 	private bool isDead = false;
 
 	void Start()
 	{
-		speed = startSpeed;
+		RB = GetComponent<Rigidbody>();
 		health = startHealth;
 	}
 
-	public void TakeDamage(float amount)
+    void Update()
+    {
+
+    }
+
+    public void TakeDamage(float amount)
 	{
 		health -= amount;
+		HealthBar.UpdateHealth(amount);
 
-		//healthBar.fillAmount = health / startHealth;
-
-		if (health <= 0 && !isDead)
+		if (health <= 0)
 		{
 			Die();
 		}
 	}
 
-	public void Slow(float pct)
-	{
-		speed = startSpeed * (1f - pct);
-	}
-
 	void Die()
 	{
-		isDead = true;
-
-		GameManager.coins += worth;
+		GameManager.coins += drop;
 		Destroy(gameObject);
 	}
 }

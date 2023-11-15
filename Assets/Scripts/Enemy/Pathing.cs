@@ -10,12 +10,12 @@ public class Pathing : MonoBehaviour
 
     private int WaypointIndex = 0;
 
-    private void Start()
+    void Start()
     {
         transform.position = waypoints[WaypointIndex].transform.position;
     }
 
-    private void Update()
+    void Update()
     {
         Move();
     }
