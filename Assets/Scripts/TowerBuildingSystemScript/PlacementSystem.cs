@@ -30,6 +30,12 @@ public class PlacementSystem : MonoBehaviour
 
     IBuildingState buildingState;
 
+    [SerializeField]
+    private SoundFeedback soundFeedback;
+
+    [SerializeField]
+    private Text Tower1Cost, Tower2Cost, Tower3Cost;
+
     
     private void Start()
     {
@@ -50,7 +56,7 @@ public class PlacementSystem : MonoBehaviour
         }
 
         gridVisualization.SetActive(true);
-        buildingState = new PlacementState(ID, grid, preview, database, towerData, objectplacer);
+        buildingState = new PlacementState(ID, grid, preview, database, towerData, objectplacer, soundFeedback);
         
         inputManager.OnClicked += PlaceTower;
         inputManager.OnExit += StopPlacement;
@@ -60,7 +66,7 @@ public class PlacementSystem : MonoBehaviour
     {
         StopPlacement();
         gridVisualization.SetActive(true);
-        buildingState = new RemovingState(grid, preview, database, towerData, objectplacer) ;
+        buildingState = new RemovingState(grid, preview, database, towerData, objectplacer, soundFeedback) ;
         inputManager.OnClicked += PlaceTower;
         inputManager.OnExit += StopPlacement;
     }
@@ -100,6 +106,8 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
+        CostCheck();
+
         if (buildingState == null)
             return;
 
@@ -111,5 +119,10 @@ public class PlacementSystem : MonoBehaviour
             buildingState.UpdateState(gridposition);
             lastDetectedPosition = gridposition;
         }
+    }
+
+    private void CostCheck()
+    {
+        //Tower1Cost.text. = (towerCost < GameManager.instance.coins) ? Color.green : Color.red;
     }
 }

@@ -25,6 +25,12 @@ public class BulletScript : MonoBehaviour
     void Update()
 	{
 		StartCoroutine(Shoot());
+
+		if (target == null)
+		{
+			Destroy(gameObject);
+			return;
+		}
 	}
 
 	IEnumerator Shoot()

@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
 	public float speed;
 
 	public float startHealth = 100;
+	[SerializeField]
 	private float health;
 
 	public int worth = 10;
@@ -50,7 +51,7 @@ public class EnemyScript : MonoBehaviour
 	{
 		isDead = true;
 
-		GameManager.coins += worth;
+		GameManager.instance.GainCoins(worth);
 		Destroy(gameObject);
 	}
 }

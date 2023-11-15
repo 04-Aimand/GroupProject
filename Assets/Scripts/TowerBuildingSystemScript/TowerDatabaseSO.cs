@@ -22,4 +22,6 @@ public class TowerData
     public GameObject Prefab { get; private set; }
     [field: SerializeField]
     public int Cost { get; private set; }
+    [field: SerializeField]
+    public GameObject PrefabPreview { get; private set; }
 }

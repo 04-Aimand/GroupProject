@@ -5,8 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Transform target;
+    private EnemyScript enemy;
 
     public float speed = 70f;
+    public float damage = 10;
     public GameObject effect;
     public void Seek(Transform _target)
     {
@@ -16,11 +18,11 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(target == null)
+        /*if(target == null)
         {
             Destroy(gameObject);
             return;
-        }
+        }*/
 
         Vector3 dir = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
@@ -37,6 +39,9 @@ public class Bullet : MonoBehaviour
 
     void HitTarget()
     {
+        enemy = target.GetComponent<EnemyScript>();
+        enemy.TakeDamage(damage);
+
         GameObject effectIns = (GameObject)Instantiate(effect, transform.position, transform.rotation);
         Destroy(effectIns, 2f);
 

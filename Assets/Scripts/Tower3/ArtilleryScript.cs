@@ -47,6 +47,10 @@ public class ArtilleryScript : MonoBehaviour
 
 	void ConstantRotation()
     {
+		if(Target == null)
+        {
+			return;
+        }
 		transform.LookAt(Target);
 		transform.Translate(Vector3.forward * Shootforce * Time.deltaTime);
 		Vector3 direction = Target.position;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tower2 : MonoBehaviour
 {
     private Transform target;
-    //public Enemy targetEnemy;
+    public EnemyScript targetEnemy;
 
     [Header("Attributes")]
 
@@ -65,7 +65,7 @@ public class Tower2 : MonoBehaviour
         if(nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
-            //targetEnemy = nearestEnemy.GetComponent<Enemy>();
+            targetEnemy = nearestEnemy.GetComponent<EnemyScript>();
         }
         else
         {
@@ -124,8 +124,8 @@ public class Tower2 : MonoBehaviour
 
     void Laser()
     {
-        //targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
-        //targetEnemy.Slow(slowPercentage);
+        targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+        targetEnemy.Slow(slowPercentage);
 
         if(!lineRenderer.enabled)
         {

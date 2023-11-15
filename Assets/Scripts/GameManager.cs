@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public LevelLoader levelLoader;
+
     public Text coinsText;
     public int coins;
 
@@ -37,8 +39,16 @@ public class GameManager : MonoBehaviour
 
         if(baseHealth <= 0)
         {
-            //Lose Game
+            levelLoader.Lose();
         }
+    }
+
+    public void GainCoins(int amount)
+    {
+        coins += amount;
+        coinsText.text = coins + " Coins";
+
+        
     }
 
     public void BuyTower(int cost)

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Base : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
             GameManager.instance.TakeDamage(10);
+            //Destroy(collision.gameObject);
         }
     }
 }

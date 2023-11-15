@@ -10299,7 +10299,7 @@ Animator:
   m_GameObject: {fileID: 7790985724318034993}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 204dfd747ab7b2245ac3205c32bd41a4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -10320,7 +10320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0ebb19c01218647b9a304ac2a1d7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 8
+  range: 12
   bulletPrefab: {fileID: 0}
   firerate: 1
   useLaser: 1
@@ -10334,7 +10334,7 @@ MonoBehaviour:
   turnspeed: 10
   firePoint: {fileID: 4477805905375458251}
   audioSource: {fileID: 7068901627184217082}
-  animator: {fileID: 0}
+  animator: {fileID: 626287717}
 --- !u!120 &8624716233045548122
 LineRenderer:
   m_ObjectHideFlags: 0
