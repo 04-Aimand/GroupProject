@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 836343b0a36043a4195ba603e48829ab, type: 3}
+  m_Name: Database
+  m_EditorClassIdentifier: 
+  towersData:
+  - <Name>k__BackingField: Tower1
+    <ID>k__BackingField: 0
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 267722239802780905, guid: 3cc7cb1c353e5f54192c18aa0bb05fc6,
+      type: 3}
+    <Cost>k__BackingField: 5
+    <SellValue>k__BackingField: 2
+  - <Name>k__BackingField: Tower2
+    <ID>k__BackingField: 1
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 267722239802780905, guid: c62f400ef482de849af54f8db63c69fa,
+      type: 3}
+    <Cost>k__BackingField: 10
+    <SellValue>k__BackingField: 5
+  - <Name>k__BackingField: Tower3
+    <ID>k__BackingField: 2
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 267722239802780905, guid: 3c93dcdba8f1e4043996167d656e64be,
+      type: 3}
+    <Cost>k__BackingField: 15
+    <SellValue>k__BackingField: 7
