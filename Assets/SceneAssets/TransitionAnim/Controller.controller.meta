@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Tower2/Animation/Attack.anim.meta
-guid: 18d0b00664a8dac4ca4bd5d84bd54c28
-========
-guid: 493a3d12d410d3e458330c3b354f42c4
->>>>>>>> Scenes:Assets/SceneAssets/TransitionAnim/Controller.controller.meta
+guid: 8080d3af7275c144ebdab85f0f38bdd7
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 0

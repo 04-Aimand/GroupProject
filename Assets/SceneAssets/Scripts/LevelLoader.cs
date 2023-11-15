@@ -9,7 +9,6 @@ public class LevelLoader : MonoBehaviour
 
     public float transitionTime;
 
-    public bool result;
 
     public void PlayButton()
     {
@@ -38,31 +37,18 @@ public class LevelLoader : MonoBehaviour
 
     public void Win()
     {
-        result = true;
         StartCoroutine(LoadScene("WinScene"));
     }
 
     public void Lose()
     {
-        result = false;
         StartCoroutine(LoadScene("LoseScene"));
     }
 
     IEnumerator LoadScene(string name)
     {
         //play animation
-        if(result == true)
-        {
-            transition.SetTrigger("StartWin");
-        }
-        if(result == false)
-        {
-            transition.SetTrigger("StartLose");
-        }
-        else
-        {
-            transition.SetTrigger("Start");
-        }
+        transition.SetTrigger("Start");
 
         //wait
         yield return new WaitForSeconds(transitionTime);
@@ -70,28 +56,4 @@ public class LevelLoader : MonoBehaviour
         //load Scene
         SceneManager.LoadScene(name);
     }
-
-    /*IEnumerator WinScene(string name)
-    {
-        //play animation
-        transition.SetTrigger("StartWin");
-
-        //wait
-        yield return new WaitForSeconds(transitionTime);
-
-        //load Scene
-        SceneManager.LoadScene(name);
-    }
-
-    IEnumerator LoseScene(string name)
-    {
-        //play animation
-        transition.SetTrigger("StartLose");
-
-        //wait
-        yield return new WaitForSeconds(transitionTime);
-
-        //load Scene
-        SceneManager.LoadScene(name);
-    }*/
 }

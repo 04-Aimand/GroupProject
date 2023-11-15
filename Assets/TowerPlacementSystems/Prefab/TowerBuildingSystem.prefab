@@ -132,7 +132,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5514901157969061523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e64bff4b210814a8f8e93e0262c80b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5811b601afe247e47804d325774c5fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   clickSound: {fileID: 8300000, guid: 057936c4461e5654da3155b105cacc6d, type: 3}
@@ -1020,7 +1020,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7849497565743388320}
-  m_Mesh: {fileID: 4579454407841743219, guid: 632de125a4f6f344080a8418c7675c43, type: 3}
+  m_Mesh: {fileID: 4579454407841743219, guid: da32556931ff9ca49aebe801d1b517a8, type: 3}
 --- !u!23 &8642398900134754165
 MeshRenderer:
   m_ObjectHideFlags: 0
