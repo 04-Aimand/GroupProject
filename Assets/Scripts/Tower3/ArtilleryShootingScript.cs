@@ -31,7 +31,7 @@ public class ArtilleryShootingScript : MonoBehaviour
         if (Cooldown <= 0f)
         {
             Shoot();
-            Cooldown = 6f;
+            Cooldown = 8f;
         }
         Cooldown -= Time.deltaTime;
     }

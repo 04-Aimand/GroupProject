@@ -10,38 +10,43 @@ public class WaveSpawner : MonoBehaviour
     public Transform spawnpoint;
     public Text Wave;
 
-    public float timeBetweenWave = 10f;
-    private float countdown = 2f;
-    private int waveNumber = 1;
-
+    private int waveNumber;
+    public int numberOfEnemyInTheseWave = 5;
+    
     private void Update()
     {
-        if(countdown <= 0f)
+        Wave.text = "Wave " + waveNumber.ToString() + "\n"+ GameManager.instance.currentEnemyInWave.ToString() +" Enemies";
+
+        if(GameManager.instance.currentEnemyInWave <=0 && waveNumber < 11)
         {
+            waveNumber++;
+            GameManager.instance.currentEnemyInWave = numberOfEnemyInTheseWave;
             StartCoroutine(SpawnWave());
-            countdown = timeBetweenWave;
         }
-        countdown -= Time.deltaTime;
-        Wave.text = waveNumber.ToString()+" : Wave";
+
+        if (waveNumber >= 10)
+        {
+            GameManager.instance.GameWin();
+        }
     }
+
 
     IEnumerator SpawnWave()
     {
-        for(int i =0;i<waveNumber;i++)
+        for(int i =0;i< numberOfEnemyInTheseWave; i++)
         {
             SpawnEnemy();
             yield return new WaitForSeconds(0.5f);
         }
-        waveNumber++;
 
-        if(waveNumber >= 10)
-        {
-            GameManager.instance.GameWin();
-        }
+        
+
+        numberOfEnemyInTheseWave += 5;
     }
 
     private void SpawnEnemy()
     {
         Instantiate(enemyPrefab, spawnpoint.position, spawnpoint.rotation);
     }
+
 }

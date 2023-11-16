@@ -9,6 +9,7 @@ public class Base : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             GameManager.instance.TakeDamage(10);
+            GameManager.instance.EnemyDefeated();
             Destroy(collision.gameObject);
         }
     }

@@ -47,6 +47,7 @@ public class ArtilleryScript : MonoBehaviour
 
 	void ConstantRotation()
     {
+		
 		if(Target == null)
         {
 			return;

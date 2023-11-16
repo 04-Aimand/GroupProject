@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public Text baseHealthText;
     private float baseHealth = 100;
 
+    public int currentEnemyInWave;
+
     private void Awake()
     {
         instance = this;
@@ -39,7 +41,7 @@ public class GameManager : MonoBehaviour
         baseHealth -= dmg;
         baseHealthText.text = "Health : " + baseHealth;
 
-        if(baseHealth <= 0)
+        if (baseHealth <= 0)
         {
             levelLoader.Lose();
         }
@@ -50,7 +52,7 @@ public class GameManager : MonoBehaviour
         coins += amount;
         coinsText.text = coins + " Coins";
 
-        
+
     }
 
     public void BuyTower(int cost)
@@ -63,4 +65,10 @@ public class GameManager : MonoBehaviour
     {
         levelLoader.Win();
     }
+
+    public void EnemyDefeated()
+    {
+        currentEnemyInWave -= 1;
+    }
+    
 }

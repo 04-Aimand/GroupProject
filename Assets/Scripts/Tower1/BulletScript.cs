@@ -24,28 +24,40 @@ public class BulletScript : MonoBehaviour
 
     void Update()
 	{
-		StartCoroutine(Shoot());
+		//StartCoroutine(Shoot());
 
 		if (target == null)
 		{
 			Destroy(gameObject);
 			return;
 		}
+
+		Vector3 dir = target.position - transform.position;
+		float distanceThisFrame = bulletspeed * Time.deltaTime;
+
+		if (dir.magnitude <= distanceThisFrame)
+		{
+			return;
+		}
+
+		transform.Translate(dir.normalized * distanceThisFrame, Space.World);
 	}
 
-	IEnumerator Shoot()
+	/*IEnumerator Shoot()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
 		transform.Translate(Vector3.forward * bulletspeed * Time.deltaTime);
 	}
+    */
 
-    private void OnCollisionEnter(Collision collision)
-    {
+	private void OnCollisionEnter(Collision collision)
+	{
 		if (collision.gameObject.CompareTag("Enemy"))
 		{
 			HitTarget();
 		}
-    }
+	}
+
 
     void HitTarget()
 	{

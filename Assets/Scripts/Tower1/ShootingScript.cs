@@ -2,87 +2,130 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingScript : MonoBehaviour
+public class ShootingScript: MonoBehaviour
 {
-    BulletScript Bullet;
-    public AudioSource AS;
-    public AudioClip Shooting;
-    public Transform Targeting;
-    public Transform TowerRotation;
+    private Transform target;
+    public EnemyScript targetEnemy;
+
+    [Header("Attributes")]
+
+    public float range = 15f;
+
+    public GameObject bulletPrefab;
+    public float firerate = 1f;
+    private float firecountdown = 0f;
+
+    [Header("User Setup")]
     public string enemyTag = "Enemy";
 
-    public Transform ShootingPoint;
-    public GameObject BulletPrefab;
-    public float Range = 10f;
-    public float Firerate = 2f;
-    private float Cooldown = 0f;
+    public Transform partToRotate;
+    public float turnspeed = 10f;
 
+    public Transform firePoint;
+
+    public AudioSource bulletShoot;
+    // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("DetectEnemiesInRadius", 0f, 0.5f);
+        InvokeRepeating("UpdateTarget", 0f, 0.5f);
     }
 
-
-    void Update()
+    void UpdateTarget()
     {
-        if (Targeting == null)
-            return;
-
-        Vector3 Direction = Targeting.position - transform.position;
-        Quaternion Lookrotation = Quaternion.LookRotation(Direction);
-        Vector3 rotation = Lookrotation.eulerAngles;
-        TowerRotation.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-
-        if (Cooldown <= 0f)
-        {
-            Shoot();
-            Cooldown = 3f / Firerate;
-        }
-        Cooldown -= Time.deltaTime;
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, Range);
-    }
-
-
-    void DetectEnemiesInRadius()
-    {
-        
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        float closestDistance = Mathf.Infinity;
+        float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
+
         foreach (GameObject enemy in enemies)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy < closestDistance)
+            if (distanceToEnemy < shortestDistance)
             {
-                closestDistance = distanceToEnemy;
+                shortestDistance = distanceToEnemy;
                 nearestEnemy = enemy;
             }
         }
 
-        if (nearestEnemy != null && closestDistance <= Range)
+        if (nearestEnemy != null && shortestDistance <= range)
         {
-            Targeting = nearestEnemy.transform;
+            target = nearestEnemy.transform;
+            targetEnemy = nearestEnemy.GetComponent<EnemyScript>();
         }
         else
         {
-            Targeting = null;
+            target = null;
         }
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        LockOnTarget();
+
+        if (firecountdown <= 0f)
+        {
+            bulletShoot.Play();
+            Shoot();
+            firecountdown = 1f / firerate;
+        }
+
+        firecountdown -= Time.deltaTime;
+    }
+
+    void LockOnTarget()
+    {
+        //target lock on
+        Vector3 dir = target.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnspeed).eulerAngles;
+        partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+    }
+
+    /*void Laser()
+    {
+        targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+        targetEnemy.Slow(slowPercentage);
+
+        if (!lineRenderer.enabled)
+        {
+            lineRenderer.enabled = true;
+            impactLight.enabled = true;
+            impactEffect.Play();
+            audioSource.Play();
+            animator.SetBool("IsAttacking", true);
+
+
+        }
+
+        lineRenderer.SetPosition(0, firePoint.position);
+        lineRenderer.SetPosition(1, target.position);
+
+        Vector3 dir = firePoint.position - target.position;
+
+        impactEffect.transform.position = target.position + dir.normalized;
+
+        impactEffect.transform.rotation = Quaternion.LookRotation(dir);
+    }*/
+
     void Shoot()
     {
-        GameObject BulletMovement = (GameObject)Instantiate(BulletPrefab, ShootingPoint.position, ShootingPoint.rotation);
-        BulletScript bullet = BulletMovement.GetComponent<BulletScript>();
-        AS.clip = Shooting;
-        AS.Play();
+        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        BulletScript bullet = bulletGO.GetComponent<BulletScript>();
 
         if (bullet != null)
         {
-            bullet.Seek(Targeting);
+            bullet.Seek(target);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }
