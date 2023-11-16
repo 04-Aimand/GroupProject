@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/TowerPlacementSystems/Scripts/TowerBuildingSystemScript/SoundFeedback.cs.meta
+guid: 5811b601afe247e47804d325774c5fe0
+========
+guid: 4b49e4d25c05fa94e9a29119289dd55d
+>>>>>>>> Scenes:Assets/SceneAssets/Scripts/LevelLoader.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

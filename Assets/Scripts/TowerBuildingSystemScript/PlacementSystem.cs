@@ -13,11 +13,10 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField]
     private TowerDatabaseSO database;
-    private int selectedTowerIndex;
     private int towerCost;
 
     [SerializeField]
-    private GameObject[] gridVisualization;
+    private GameObject gridVisualization;
 
     private GridData towerData;
 
@@ -26,7 +25,18 @@ public class PlacementSystem : MonoBehaviour
 
     private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
-    private List<GameObject> placedGameObjects = new List<GameObject>();
+    [SerializeField]
+    private ObjectPlacer objectplacer;
+
+    IBuildingState buildingState;
+
+    [SerializeField]
+    private SoundFeedback soundFeedback;
+
+    [SerializeField]
+    private Text Tower1Cost, Tower2Cost, Tower3Cost;
+
+    
     private void Start()
     {
         StopPlacement();
@@ -37,20 +47,26 @@ public class PlacementSystem : MonoBehaviour
     public void StartPlacement(int ID)
     {
         StopPlacement();
-        selectedTowerIndex = database.towersData.FindIndex(data => data.ID == ID);
-        if (selectedTowerIndex < 0)
-        {
-            Debug.LogError($"No ID Found {ID}");
-            return;
-        }
-        towerCost = database.towersData[selectedTowerIndex].Cost;
+        
+        towerCost = database.towersData[database.towersData.FindIndex(data => data.ID == ID)].Cost;
         if(GameManager.instance.coins < towerCost)
         {
             Debug.Log("Not Enough coins");
             return;
         }
-        gridVisualization[0].SetActive(true);
-        preview.StartShowingPlacementPreview(database.towersData[selectedTowerIndex].Prefab, database.towersData[selectedTowerIndex].Size);
+
+        gridVisualization.SetActive(true);
+        buildingState = new PlacementState(ID, grid, preview, database, towerData, objectplacer, soundFeedback);
+        
+        inputManager.OnClicked += PlaceTower;
+        inputManager.OnExit += StopPlacement;
+    }
+
+    public void StartRemoving()
+    {
+        StopPlacement();
+        gridVisualization.SetActive(true);
+        buildingState = new RemovingState(grid, preview, database, towerData, objectplacer, soundFeedback) ;
         inputManager.OnClicked += PlaceTower;
         inputManager.OnExit += StopPlacement;
     }
@@ -65,34 +81,24 @@ public class PlacementSystem : MonoBehaviour
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridposition = grid.WorldToCell(mousePosition);
 
-        bool placementValidity = CheckPlacementValidity(gridposition, selectedTowerIndex);
-        if (placementValidity == false)
-            return;
+        buildingState.OnAction(gridposition);
 
-        GameObject newTower = Instantiate(database.towersData[selectedTowerIndex].Prefab);
-        newTower.transform.position = grid.CellToWorld(gridposition);
-        placedGameObjects.Add(newTower);
-        GridData selectedData = towerData;
-        selectedData.AddObjectAt(gridposition, database.towersData[selectedTowerIndex].Size,
-            database.towersData[selectedTowerIndex].ID, placedGameObjects.Count - 1);
-        //udate coins text
-        GameManager.instance.coins -= towerCost;
-        preview.UpdatePosition(grid.CellToWorld(gridposition), false);
         StopPlacement();
     }
 
-    private bool CheckPlacementValidity(Vector3Int gridposition, int selectedTowerIndex)
-    {
-        GridData selectedData = towerData;
+    //private bool CheckPlacementValidity(Vector3Int gridposition, int selectedTowerIndex)
+    //{
+    //    GridData selectedData = towerData;
 
-        return selectedData.CanPlaceObjectAt(gridposition, database.towersData[selectedTowerIndex].Size);
-    }
+    //    return selectedData.CanPlaceObjectAt(gridposition, database.towersData[selectedTowerIndex].Size);
+    //}
 
     private void StopPlacement()
     {
-        selectedTowerIndex = -1;
-        gridVisualization[0].SetActive(false);
-        preview.StopShowingPreview();
+        if (buildingState == null)
+            return;
+        gridVisualization.SetActive(false);
+        buildingState.EndState();
         inputManager.OnClicked -= PlaceTower;
         inputManager.OnExit -= StopPlacement;
         lastDetectedPosition = Vector3Int.zero;
@@ -100,18 +106,25 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
-        if (selectedTowerIndex < 0)
+        CostCheck();
+
+        if (buildingState == null)
             return;
+
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridposition = grid.WorldToCell(mousePosition);
 
         if(lastDetectedPosition != gridposition)
         {
-            bool placementValidity = CheckPlacementValidity(gridposition, selectedTowerIndex);
-            preview.UpdatePosition(grid.CellToWorld(gridposition), placementValidity);
+            buildingState.UpdateState(gridposition);
             lastDetectedPosition = gridposition;
         }
-        
+    }
 
+    private void CostCheck()
+    {
+        Tower1Cost.color = (5 < GameManager.instance.coins) ? Color.green : Color.red;
+        Tower2Cost.color = (15 < GameManager.instance.coins) ? Color.green : Color.red;
+        Tower3Cost.color = (30 < GameManager.instance.coins) ? Color.green : Color.red;
     }
 }

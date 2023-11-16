@@ -8,8 +8,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public LevelLoader levelLoader;
+
     public Text coinsText;
     public int coins;
+
+    public float timeflow;
 
     public Text baseHealthText;
     private float baseHealth = 100;
@@ -21,7 +25,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Time.timeScale = timeflow;
     }
 
     // Update is called once per frame
@@ -30,14 +34,33 @@ public class GameManager : MonoBehaviour
         coinsText.text = coins + " Coins";
     }
 
-    public void DealDamage(int dmg)
+    public void TakeDamage(int dmg)
     {
         baseHealth -= dmg;
         baseHealthText.text = "Health : " + baseHealth;
 
         if(baseHealth <= 0)
         {
-            //Lose Game
+            levelLoader.Lose();
         }
+    }
+
+    public void GainCoins(int amount)
+    {
+        coins += amount;
+        coinsText.text = coins + " Coins";
+
+        
+    }
+
+    public void BuyTower(int cost)
+    {
+        coins -= cost;
+        coinsText.text = coins + " Coins";
+    }
+
+    public void GameWin()
+    {
+        levelLoader.Win();
     }
 }
