@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5606511411771454918
 Transform:
   m_ObjectHideFlags: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transition: {fileID: 387454143}
-  transitionTime: 2
+  transitionTime: 5
 --- !u!1 &5606511411996779685
 GameObject:
   m_ObjectHideFlags: 0

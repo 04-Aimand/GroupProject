@@ -123,6 +123,8 @@ public class PlacementSystem : MonoBehaviour
 
     private void CostCheck()
     {
-        //Tower1Cost.text. = (towerCost < GameManager.instance.coins) ? Color.green : Color.red;
+        Tower1Cost.color = (5 < GameManager.instance.coins) ? Color.green : Color.red;
+        Tower2Cost.color = (15 < GameManager.instance.coins) ? Color.green : Color.red;
+        Tower3Cost.color = (30 < GameManager.instance.coins) ? Color.green : Color.red;
     }
 }

@@ -371,6 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnspeed: 20
+  enemy: {fileID: 6437617429937624160}
 --- !u!114 &6437617429937624160
 MonoBehaviour:
   m_ObjectHideFlags: 0

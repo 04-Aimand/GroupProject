@@ -58,4 +58,9 @@ public class GameManager : MonoBehaviour
         coins -= cost;
         coinsText.text = coins + " Coins";
     }
+
+    public void GameWin()
+    {
+        levelLoader.Win();
+    }
 }

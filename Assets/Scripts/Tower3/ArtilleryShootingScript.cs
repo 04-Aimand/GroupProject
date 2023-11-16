@@ -6,7 +6,7 @@ public class ArtilleryShootingScript : MonoBehaviour
 {
     ArtilleryScript Bullet;
     public AudioSource AS;
-    public AudioClip Shooting, Upgrade;
+    public AudioClip Shooting;
     public Transform Targeting;
     public string enemyTag = "Enemy";
 

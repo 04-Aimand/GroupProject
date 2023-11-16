@@ -6,7 +6,7 @@ public class ShootingScript : MonoBehaviour
 {
     BulletScript Bullet;
     public AudioSource AS;
-    public AudioClip Shooting, Upgrade;
+    public AudioClip Shooting;
     public Transform Targeting;
     public Transform TowerRotation;
     public string enemyTag = "Enemy";
@@ -19,8 +19,6 @@ public class ShootingScript : MonoBehaviour
 
     void Start()
     {
-        //AS.clip = StartingUp;
-        //AS.Play();
         InvokeRepeating("DetectEnemiesInRadius", 0f, 0.5f);
     }
 
@@ -79,7 +77,8 @@ public class ShootingScript : MonoBehaviour
     {
         GameObject BulletMovement = (GameObject)Instantiate(BulletPrefab, ShootingPoint.position, ShootingPoint.rotation);
         BulletScript bullet = BulletMovement.GetComponent<BulletScript>();
-        //bullet.Seek(Targeting);
+        AS.clip = Shooting;
+        AS.Play();
 
         if (bullet != null)
         {

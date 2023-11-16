@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyScript))]
 public class Pathing : MonoBehaviour
 {
+    public float turnspeed;
     public EnemyScript enemy;
     private Transform Target;
     private int WaypointIndex;
@@ -18,23 +19,30 @@ public class Pathing : MonoBehaviour
 
     private void Update()
     {
-        Vector3 dir = Target.position - transform.position;
-        transform.Translate(dir.normalized * enemy.speed * Time.deltaTime, Space.World);
-
-        if (Vector2.Distance(transform.position, Target.position) <= 2.0f)
+        if (WaypointIndex <= Waypoints.points.Length - 1)
         {
-            GetNextWaypoint();
+            transform.position = Vector3.MoveTowards(transform.position, Waypoints.points[WaypointIndex].transform.position, enemy.speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, Waypoints.points[WaypointIndex].transform.position, enemy.speed * Time.deltaTime);
+            if (transform.position == Waypoints.points[WaypointIndex].transform.position)
+            {
+                WaypointIndex += 1;
+            }
+            LockOnTarget();
         }
     }
-    void GetNextWaypoint()
+
+    void LockOnTarget()
     {
-        if(WaypointIndex >= Waypoints.points.Length -1)
+        if (WaypointIndex >= Waypoints.points.Length-1)
         {
             return;
         }
-
-        WaypointIndex++;
         Target = Waypoints.points[WaypointIndex];
+        //target lock on
+        Vector3 dir = Target.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * turnspeed).eulerAngles;
+        transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
 }

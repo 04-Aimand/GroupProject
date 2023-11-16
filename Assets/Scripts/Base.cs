@@ -9,7 +9,7 @@ public class Base : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             GameManager.instance.TakeDamage(10);
-            //Destroy(collision.gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }

@@ -530,8 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AS: {fileID: 2400012867141904336}
-  Shooting: {fileID: 0}
-  Upgrade: {fileID: 0}
+  Shooting: {fileID: 8300000, guid: 95e70f7284499a442957597bb47f83ee, type: 3}
   Targeting: {fileID: 0}
   enemyTag: Enemy
   ShootingPoint: {fileID: 2400012868598828639}

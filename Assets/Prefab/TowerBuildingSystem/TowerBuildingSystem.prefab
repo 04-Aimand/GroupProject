@@ -940,6 +940,9 @@ MonoBehaviour:
   preview: {fileID: 1814572460}
   objectplacer: {fileID: 1726690886}
   soundFeedback: {fileID: 6828475194887264246}
+  Tower1Cost: {fileID: 0}
+  Tower2Cost: {fileID: 0}
+  Tower3Cost: {fileID: 0}
 --- !u!1 &6508917249247499411
 GameObject:
   m_ObjectHideFlags: 0
