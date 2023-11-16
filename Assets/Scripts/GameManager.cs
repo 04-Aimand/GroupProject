@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public Text coinsText;
     public int coins;
 
+    public float timeflow;
+
     public Text baseHealthText;
     private float baseHealth = 100;
 
@@ -23,7 +25,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Time.timeScale = timeflow;
     }
 
     // Update is called once per frame

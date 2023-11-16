@@ -18,9 +18,9 @@ public class EnemyScript : MonoBehaviour
 	public int worth = 10;
 
 	public GameObject deathEffect;
+	HealthBar HealthBar;
 
-	[Header("Unity Stuff")]
-	public Image healthBar;
+	public Slider healthBar;
 
 	private bool isDead = false;
 
@@ -34,7 +34,9 @@ public class EnemyScript : MonoBehaviour
 	{
 		health -= amount;
 
-		//healthBar.fillAmount = health / startHealth;
+		//HealthBar.UpdateHealth(amount);
+
+		healthBar.value = health / startHealth;
 
 		if (health <= 0 && !isDead)
 		{
@@ -55,3 +57,4 @@ public class EnemyScript : MonoBehaviour
 		Destroy(gameObject);
 	}
 }
+
